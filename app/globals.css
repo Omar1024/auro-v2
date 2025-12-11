@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 26% 96%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 220 40% 45%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 91%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 91%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 91%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 220 40% 45%;
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 222 47% 4%;
+    --foreground: 210 40% 88%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 88%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 88%;
+    --primary: 220 40% 45%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 33% 15%;
+    --secondary-foreground: 210 40% 88%;
+    --muted: 223 47% 9%;
+    --muted-foreground: 215 20% 50%;
+    --accent: 216 34% 15%;
+    --accent-foreground: 210 40% 88%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 15%;
+    --input: 217 33% 15%;
+    --ring: 220 40% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply bg-white border border-gray-200;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent;
+  }
+  
+  .gradient-button {
+    @apply bg-[#FACC15] hover:bg-[#EAB308] text-black transition-all duration-300;
+  }
+  
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/30 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
+
+/* Floating particles animation */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) scale(1);
+  }
+}
