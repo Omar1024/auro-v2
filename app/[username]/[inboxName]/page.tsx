@@ -238,7 +238,6 @@ export default function PublicInboxPage({
         .insert({
           inbox_id: inboxData.id,
           anon_id: anonId,
-          anon_ip: hashedIP,
           content: message.trim(),
         })
 
@@ -252,10 +251,11 @@ export default function PublicInboxPage({
       setMessage("")
       setCharCount(0)
 
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Message send error:', error)
       toast({
         title: "❌ Error",
-        description: "Failed to send message. Please try again.",
+        description: error.message || "Failed to send message. Please try again.",
         variant: "destructive",
       })
     } finally {

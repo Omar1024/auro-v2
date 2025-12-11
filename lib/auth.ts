@@ -62,7 +62,13 @@ export async function signUp(email: string, password: string, username: string) 
 
     if (profileError) {
       console.error('Profile creation error:', profileError)
-      // Don't throw - the profile might be created by a trigger or on email confirmation
+      // If it's a duplicate key error, the user might already exist (race condition)
+      if (profileError.code === '23505') {
+        console.log('User profile already exists, continuing...')
+      } else {
+        // For other errors (like RLS policy issues), throw to show the error
+        throw new Error(`Failed to create user profile: ${profileError.message}`)
+      }
     }
   }
 

@@ -89,12 +89,14 @@ CREATE TABLE IF NOT EXISTS blocked_users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   inbox_id UUID NOT NULL REFERENCES inboxes(id) ON DELETE CASCADE,
   anon_id TEXT NOT NULL,
+  anon_ip TEXT, -- Store hashed IP for blocking
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
   UNIQUE(inbox_id, anon_id)
 );
 
 CREATE INDEX IF NOT EXISTS blocked_users_inbox_id_idx ON blocked_users(inbox_id);
 CREATE INDEX IF NOT EXISTS blocked_users_anon_id_idx ON blocked_users(anon_id);
+CREATE INDEX IF NOT EXISTS blocked_users_anon_ip_idx ON blocked_users(anon_ip);
 
 -- Banned Users Table (global platform ban)
 CREATE TABLE IF NOT EXISTS banned_users (
@@ -186,11 +188,23 @@ DROP POLICY IF EXISTS "Users can delete their own replies" ON replies;
 -- USERS TABLE POLICIES
 -- --------------------
 
+-- Users can insert their own profile (for signup)
+CREATE POLICY "users_insert_own"
+  ON users FOR INSERT
+  TO authenticated
+  WITH CHECK (auth.uid() = id);
+
 -- Users can view their own profile
 CREATE POLICY "users_select_own"
   ON users FOR SELECT
   TO authenticated
   USING (auth.uid() = id);
+
+-- Anyone can view public user profiles (for profile pages)
+CREATE POLICY "Anyone can view public user profiles"
+  ON users FOR SELECT
+  TO authenticated, anon
+  USING (true); -- Allow viewing all profiles for public pages
 
 -- Users can update their own profile (but not their role)
 CREATE POLICY "users_update_own"
@@ -225,6 +239,12 @@ CREATE POLICY "Anyone can view public inboxes"
   ON inboxes FOR SELECT
   TO authenticated, anon
   USING (visibility = 'public');
+
+-- Anyone can view private inboxes (to see password prompt)
+CREATE POLICY "Anyone can view private inboxes"
+  ON inboxes FOR SELECT
+  TO authenticated, anon
+  USING (visibility = 'private');
 
 -- Users can create their own inboxes
 CREATE POLICY "Users can create their own inboxes"
@@ -272,6 +292,18 @@ CREATE POLICY "Anyone can send messages to public inboxes"
     )
   );
 
+-- Anyone can send messages to private inboxes (password verified in app)
+CREATE POLICY "Anyone can send messages to private inboxes"
+  ON messages FOR INSERT
+  TO authenticated, anon
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM inboxes
+      WHERE inboxes.id = inbox_id
+      AND inboxes.visibility = 'private'
+    )
+  );
+
 -- Inbox owners can update their messages (for marking as replied)
 CREATE POLICY "Inbox owners can update their messages"
   ON messages FOR UPDATE
@@ -300,12 +332,17 @@ CREATE POLICY "Inbox owners can delete their messages"
 -- REPLIES TABLE POLICIES
 -- --------------------
 
--- Users can view public replies and their own replies
-CREATE POLICY "Users can view public replies and their own replies"
+-- Anyone can view public replies
+CREATE POLICY "Anyone can view public replies"
   ON replies FOR SELECT
+  TO authenticated, anon
+  USING (is_public = TRUE);
+
+-- Users can view their own private replies
+CREATE POLICY "Users can view their own private replies"
+  ON replies FOR SELECT
+  TO authenticated
   USING (
-    is_public = TRUE 
-    OR 
     EXISTS (
       SELECT 1 FROM messages m
       JOIN inboxes i ON m.inbox_id = i.id
