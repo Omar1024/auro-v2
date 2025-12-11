@@ -52,7 +52,7 @@ Thumbs.db
 
 # Supabase (if you have local config)
 .supabase/
-
+.md
 
 
 

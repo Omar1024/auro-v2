@@ -35,6 +35,7 @@ export default function HiddenWordsPage() {
     if (user) {
       fetchHiddenWords()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   const fetchHiddenWords = async () => {

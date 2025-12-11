@@ -80,6 +80,7 @@ export default function DashboardPage() {
         supabase.removeChannel(messagesChannel)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   useEffect(() => {
@@ -500,7 +501,7 @@ export default function DashboardPage() {
                           </div>
                           <div className="bg-white border-2 border-black rounded-xl p-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-10">
                             <h3 className="text-black text-base font-black tracking-tighter mb-0.5 truncate">
-                              auro.app/@{profile?.username || 'username'}/{newInboxLink || 'inbox-link'}
+                              auro.obl.ee/@{profile?.username || 'username'}/{newInboxLink || 'inbox-link'}
                             </h3>
                             <p className="text-gray-600 font-bold text-xs leading-snug line-clamp-1">
                               {newInboxPrompt || 'Send me anonymous messages!'}
@@ -526,7 +527,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center bg-white rounded-xl border-2 border-black overflow-hidden h-11 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
                           <div className="pl-3 pr-2 flex items-center justify-center h-full select-none bg-gray-100 border-r-2 border-black">
-                            <span className="text-gray-400 font-bold text-xs tracking-tight">auro.app/@{profile?.username || 'user'}/</span>
+                            <span className="text-gray-400 font-bold text-xs tracking-tight">auro.obl.ee/@{profile?.username || 'user'}/</span>
                           </div>
                           <input
                             className="flex-1 bg-transparent border-none text-black text-base font-bold placeholder:text-gray-300 focus:ring-0 px-2 h-full"

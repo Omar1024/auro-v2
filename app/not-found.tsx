@@ -42,7 +42,7 @@ export default function NotFound() {
             Lost in the void?
           </h2>
           <p className="text-[#71717A] text-base font-normal leading-relaxed max-w-[280px]">
-            We couldn't find the page you're looking for. It might have been deleted or the link is incorrect.
+            We couldn&apos;t find the page you&apos;re looking for. It might have been deleted or the link is incorrect.
           </p>
         </div>
 

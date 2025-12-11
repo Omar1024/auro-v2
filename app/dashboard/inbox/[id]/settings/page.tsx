@@ -52,6 +52,7 @@ export default function InboxSettingsPage({
     if (user) {
       fetchInbox()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, params.id])
 
   const fetchInbox = async () => {
@@ -227,7 +228,7 @@ export default function InboxSettingsPage({
               className="bg-white text-black border-2 border-black rounded-xl font-bold text-base h-12 focus:ring-0 focus:border-black shadow-[2px_2px_0px_0px_#000000] placeholder:text-gray-400"
             />
             <p className="text-xs font-bold text-gray-500 px-1">
-              This is the URL path for your inbox: auro.app/@username/<span className="text-black">{inboxName || 'inbox-name'}</span>
+              This is the URL path for your inbox: auro.obl.ee/@username/<span className="text-black">{inboxName || 'inbox-name'}</span>
             </p>
           </div>
         </div>
@@ -372,7 +373,7 @@ export default function InboxSettingsPage({
               Delete Inbox?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-gray-600 font-medium">
-              This action cannot be undone. This will permanently delete your inbox "{inboxName}" and all associated messages.
+              This action cannot be undone. This will permanently delete your inbox &quot;{inboxName}&quot; and all associated messages.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex flex-col sm:flex-row gap-3 mt-4">

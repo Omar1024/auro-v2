@@ -298,7 +298,7 @@ export default function PublicProfilePage({
                     Anonymous asked:
                   </p>
                   <p className="font-black text-xl leading-snug text-gray-900">
-                    "{item.question}"
+                    &quot;{item.question}&quot;
                   </p>
                 </div>
 

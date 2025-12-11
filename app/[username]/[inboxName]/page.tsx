@@ -232,15 +232,7 @@ export default function PublicInboxPage({
         return
       }
 
-      // Generate consistent anonymous ID based on hashed IP only
-      // This ensures the same person has the same anon_id across ALL inboxes
-      const generateConsistentAnonId = (hashedIP: string) => {
-        return `anon_${hashedIP}`
-      }
-      
-      const anonId = generateConsistentAnonId(hashedIP)
-
-      // Insert message
+      // Insert message (anonId is already defined above)
       const { error: insertError } = await supabase
         .from('messages')
         .insert({
@@ -466,7 +458,7 @@ export default function PublicInboxPage({
                 </div>
               </div>
               <AlertDialogTitle className="text-center text-gray-900 text-xl">
-                You're Banned
+                You&apos;re Banned
               </AlertDialogTitle>
               <AlertDialogDescription className="text-center text-gray-600">
                 {banReason}

@@ -96,7 +96,7 @@ export default function LoginPage() {
                 <Mail className="absolute left-0 w-5 h-5 text-gray-400 pointer-events-none" />
                 <input
                   className="w-full bg-transparent border-none p-2 pl-8 text-lg font-medium text-black placeholder:text-gray-300 focus:ring-0 focus:outline-none"
-                  placeholder="user@auro.app"
+                  placeholder="user@auro.obl.ee"
                   type="text"
                   value={emailOrUsername}
                   onChange={(e) => setEmailOrUsername(e.target.value)}
@@ -167,7 +167,7 @@ export default function LoginPage() {
                   className="text-gray-600 hover:text-black transition-colors font-medium"
                   href="/auth/register"
                 >
-                  Don't have an account? Create One
+                  Don&apos;t have an account? Create One
                 </Link>
               </div>
             </div>

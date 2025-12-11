@@ -15,6 +15,7 @@ export default function ConfirmEmailPage() {
 
   useEffect(() => {
     handleEmailConfirmation()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleEmailConfirmation = async () => {

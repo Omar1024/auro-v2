@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { getSiteUrl } from './site-config'
 
 export async function signUp(email: string, password: string, username: string) {
   console.log('Starting signup for:', email, username)
@@ -30,7 +31,7 @@ export async function signUp(email: string, password: string, username: string) 
       data: {
         username,
       },
-      emailRedirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}/auth/callback`,
+      emailRedirectTo: getSiteUrl('/auth/callback'),
     },
   })
 

@@ -345,11 +345,11 @@ export default function SettingsPage() {
                 <span className="font-bold text-lg">Safety center</span>
                 <ChevronRight className="w-5 h-5 text-black group-hover:translate-x-1 transition-transform" />
               </Link>
-              <a href="https://auro.app/terms" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 border-b-2 border-black hover:bg-gray-50 transition-colors group">
+              <a href="http://auro.obl.ee/terms" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 border-b-2 border-black hover:bg-gray-50 transition-colors group">
                 <span className="font-bold text-lg">Terms of use</span>
                 <ExternalLink className="w-5 h-5 text-black group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
               </a>
-              <a href="https://auro.app/privacy" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
+              <a href="http://auro.obl.ee/privacy" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
                 <span className="font-bold text-lg">Privacy policy</span>
                 <ExternalLink className="w-5 h-5 text-black group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
               </a>

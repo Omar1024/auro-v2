@@ -35,6 +35,7 @@ export default function BlockedUsersPage() {
     if (user) {
       fetchBlockedUsers()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   const fetchBlockedUsers = async () => {
@@ -177,7 +178,7 @@ export default function BlockedUsersPage() {
               </div>
               <h3 className="text-xl font-black text-black mb-2">No Blocked Users</h3>
               <p className="text-gray-500 text-sm">
-                You haven't blocked any anonymous users yet
+                You haven&apos;t blocked any anonymous users yet
               </p>
             </div>
           ) : (

@@ -28,6 +28,7 @@ import {
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/contexts/auth-context"
+import { getSiteUrl } from "@/lib/site-config"
 import Link from "next/link"
 import html2canvas from "html2canvas"
 import {
@@ -124,6 +125,7 @@ export default function InboxMessagesPage() {
         supabase.removeChannel(messagesChannel)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, params.id])
 
   const fetchHiddenWords = async () => {
@@ -435,7 +437,7 @@ export default function InboxMessagesPage() {
   }
 
   const handleCopyLink = async () => {
-    const shareUrl = `${window.location.origin}/@${profile?.username}/${inbox?.name}`
+    const shareUrl = `${getSiteUrl()}/@${profile?.username}/${inbox?.name}`
     try {
       await navigator.clipboard.writeText(shareUrl)
       toast({
@@ -470,7 +472,7 @@ export default function InboxMessagesPage() {
     }
     
     // Create the question URL
-    const questionUrl = `${window.location.origin}/@${profile?.username}/${inbox?.name}`
+    const questionUrl = `${getSiteUrl()}/@${profile?.username}/${inbox?.name}`
     
     const text = `${question} -> ${answer}\n\n${questionUrl}`
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
@@ -1018,7 +1020,7 @@ export default function InboxMessagesPage() {
           <DialogHeader>
             <DialogTitle className="text-black font-black">Block Anonymous User</DialogTitle>
             <DialogDescription className="text-gray-600 font-bold">
-              This user won't be able to send messages to this inbox anymore. This action cannot be undone.
+              This user won&apos;t be able to send messages to this inbox anymore. This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

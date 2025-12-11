@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
@@ -90,15 +90,7 @@ export default function AdminDashboard() {
     }
   }, [user, profile, authLoading, router])
 
-  useEffect(() => {
-    if (user && profile?.role === 'admin') {
-      fetchReports()
-      fetchUsers()
-      fetchStats()
-    }
-  }, [user, profile])
-
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       // Get pending reports count
       const { count: reportsCount } = await supabase
@@ -124,9 +116,9 @@ export default function AdminDashboard() {
     } catch (error) {
       // Silent fail - non-critical
     }
-  }
+  }, [])
 
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     setIsLoading(true)
     try {
       const { data, error } = await supabase
@@ -158,9 +150,9 @@ export default function AdminDashboard() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [toast])
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('users')
@@ -171,7 +163,15 @@ export default function AdminDashboard() {
       setUsers(data || [])
     } catch (error) {
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (user && profile?.role === 'admin') {
+      fetchReports()
+      fetchUsers()
+      fetchStats()
+    }
+  }, [user, profile, fetchReports, fetchUsers, fetchStats])
 
   const handleDeleteMessage = async (messageId: string, reportId: string) => {
     try {
@@ -596,7 +596,7 @@ export default function AdminDashboard() {
                           <span className="text-xs font-bold text-gray-400">{formatTimeAgo(report.created_at)}</span>
                         </div>
                         <div className="p-3 rounded-lg bg-gray-50 border-l-4 border-black text-sm text-gray-800 font-medium italic">
-                          "{report.messages?.content || 'Message not available'}"
+                          &quot;{report.messages?.content || 'Message not available'}&quot;
                         </div>
                       </div>
                     </div>

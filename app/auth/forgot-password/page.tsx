@@ -6,6 +6,7 @@ import { Mail, Loader2, ArrowLeft, CheckCircle2, InfinityIcon, ArrowRight } from
 import Link from "next/link"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/lib/supabase"
+import { getSiteUrl } from "@/lib/site-config"
 
 export default function ForgotPasswordPage() {
   const { toast } = useToast()
@@ -19,7 +20,7 @@ export default function ForgotPasswordPage() {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+        redirectTo: getSiteUrl('/auth/reset-password'),
       })
 
       if (error) throw error
@@ -136,7 +137,7 @@ export default function ForgotPasswordPage() {
               <div>
                 <h2 className="text-3xl font-black text-black mb-2">Check Your Email! 📧</h2>
                 <p className="text-gray-600 font-medium mb-4">
-                  We've sent a password reset link to
+                  We&apos;ve sent a password reset link to
                 </p>
                 <p className="text-black font-bold text-lg bg-[#F7FF00]/20 px-4 py-2 rounded-xl inline-block">
                   {email}

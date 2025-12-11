@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Inbox, ExternalLink, Copy, Trash2, Settings, Globe, Lock } from "lucide-react"
 import Link from "next/link"
 import { useToast } from "@/hooks/use-toast"
+import { getSiteUrl } from "@/lib/site-config"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,7 +32,7 @@ interface MobileInboxCardProps {
 
 export function MobileInboxCard({ inbox, username, onDelete }: MobileInboxCardProps) {
   const { toast } = useToast()
-  const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/@${username}/${inbox.name.toLowerCase().replace(/\s+/g, '-')}`
+  const shareUrl = `${getSiteUrl()}/@${username}/${inbox.name.toLowerCase().replace(/\s+/g, '-')}`
 
   const handleCopyLink = async () => {
     try {
@@ -121,7 +122,7 @@ export function MobileInboxCard({ inbox, username, onDelete }: MobileInboxCardPr
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-gray-900">Delete Inbox?</AlertDialogTitle>
                   <AlertDialogDescription className="text-gray-600">
-                    This will permanently delete "{inbox.name}" and all its messages. This action cannot be undone.
+                    This will permanently delete &quot;{inbox.name}&quot; and all its messages. This action cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
