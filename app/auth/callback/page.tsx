@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,7 +10,9 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Logo } from "@/components/logo"
 
-export default function AuthCallbackPage() {
+export const dynamic = 'force-dynamic'
+
+function AuthCallbackContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
@@ -19,6 +21,9 @@ export default function AuthCallbackPage() {
   useEffect(() => {
     const handleEmailConfirmation = async () => {
       try {
+        // Skip if running on server
+        if (typeof window === 'undefined') return
+        
         // Get the hash from URL (contains the tokens)
         const hashParams = new URLSearchParams(window.location.hash.substring(1))
         const accessToken = hashParams.get('access_token')
@@ -96,26 +101,27 @@ export default function AuthCallbackPage() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
-      >
-        <Card className="glass-effect shadow-2xl">
+      <div className="w-full max-w-md">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card className="glass-effect shadow-2xl">
           <CardHeader className="text-center space-y-4">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", delay: 0.2 }}
-              className="mx-auto mb-4"
-            >
-              <Logo 
-                size="lg"
-                iconClassName="text-primary"
-                textClassName="gradient-text"
-              />
-            </motion.div>
+            <div className="mx-auto mb-4">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", delay: 0.2 }}
+              >
+                <Logo 
+                  size="lg"
+                  iconClassName="text-primary"
+                  textClassName="gradient-text"
+                />
+              </motion.div>
+            </div>
           </CardHeader>
 
           <CardContent className="text-center space-y-6">
@@ -171,8 +177,20 @@ export default function AuthCallbackPage() {
             )}
           </CardContent>
         </Card>
-      </motion.div>
+        </motion.div>
+      </div>
     </main>
   )
 }
 
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </main>
+    }>
+      <AuthCallbackContent />
+    </Suspense>
+  )
+}

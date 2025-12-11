@@ -22,17 +22,18 @@ export default function TermsOfServicePage() {
       <main className="relative z-10 pt-20 pb-12 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-8"
-          >
+          <div className="text-center mb-8">
             <motion.div
-              className="inline-block p-4 rounded-2xl bg-[#F7FF00] border-3 border-black shadow-[4px_4px_0px_0px_#000000] mb-4"
-              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
             >
-              <Scale className="h-12 w-12 text-black" />
-            </motion.div>
+            <div className="inline-block p-4 rounded-2xl bg-[#F7FF00] border-3 border-black shadow-[4px_4px_0px_0px_#000000] mb-4">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+              >
+                <Scale className="h-12 w-12 text-black" />
+              </motion.div>
+            </div>
             
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-black mb-3">
               Terms of Service
@@ -41,7 +42,8 @@ export default function TermsOfServicePage() {
             <p className="text-gray-600 font-medium text-sm sm:text-base">
               Effective Date: To be announced upon public launch
             </p>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Content */}
           <motion.div

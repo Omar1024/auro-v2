@@ -115,12 +115,12 @@ export default function ResetPasswordPage() {
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-background" />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md"
-        >
-          <Card className="glass-effect shadow-2xl">
+        <div className="w-full max-w-md">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Card className="glass-effect shadow-2xl">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold text-destructive">
                 Invalid Reset Link
@@ -142,7 +142,8 @@ export default function ResetPasswordPage() {
               </Link>
             </CardContent>
           </Card>
-        </motion.div>
+          </motion.div>
+        </div>
       </main>
     )
   }
@@ -156,27 +157,28 @@ export default function ResetPasswordPage() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
-      >
-        <Card className="glass-effect shadow-2xl">
+      <div className="w-full max-w-md">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card className="glass-effect shadow-2xl">
           <CardHeader className="text-center space-y-2">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", delay: 0.2 }}
-              className="mx-auto mb-4"
-            >
+            <div className="mx-auto mb-4">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", delay: 0.2 }}
+              >
               <Logo 
                 size="lg"
                 iconClassName="text-primary"
                 textClassName="text-foreground"
                 showText={false}
               />
-            </motion.div>
+              </motion.div>
+            </div>
             <CardTitle className="text-3xl font-bold">
               Set New Password
             </CardTitle>
@@ -189,11 +191,11 @@ export default function ResetPasswordPage() {
 
           <CardContent className="space-y-4">
             {isSuccess ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center space-y-4"
-              >
+              <div className="text-center space-y-4">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
                 <div className="mx-auto h-20 w-20 rounded-full bg-green-500/10 flex items-center justify-center">
                   <CheckCircle2 className="h-10 w-10 text-green-500" />
                 </div>
@@ -208,7 +210,8 @@ export default function ResetPasswordPage() {
                     Go to Dashboard
                   </Button>
                 </Link>
-              </motion.div>
+                </motion.div>
+              </div>
             ) : (
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div className="space-y-2">
@@ -269,16 +272,18 @@ export default function ResetPasswordPage() {
         </Card>
 
         {!isSuccess && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="text-center text-sm text-muted-foreground mt-6"
-          >
-            Secure password reset powered by <span className="gradient-text font-semibold">Auro</span>
-          </motion.p>
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              Secure password reset powered by <span className="gradient-text font-semibold">Auro</span>
+            </motion.span>
+          </p>
         )}
-      </motion.div>
+        </motion.div>
+      </div>
     </main>
   )
 }
