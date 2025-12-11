@@ -659,7 +659,7 @@ export default function AdminDashboard() {
                           ? 'bg-gray-300 text-gray-500 border-gray-300'
                           : 'bg-gradient-to-br from-purple-400 to-pink-400 text-white border-black'
                       }`}>
-                        {user.username.charAt(0).toUpperCase()}
+                        {user?.username?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
                     )}
                     {/* Admin Badge */}

@@ -34,17 +34,22 @@ export default function PublicProfilePage({
   ]
 
   useEffect(() => {
+    // Check if params.username exists
+    if (!params?.username) return
+    
     // Check if the username is a reserved route
-    if (RESERVED_ROUTES.includes(params.username.toLowerCase())) {
+    if (params?.username && RESERVED_ROUTES.includes(params.username.toLowerCase())) {
       router.push('/')
       return
     }
     
     fetchProfileAndFeed()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [params?.username])
 
   const fetchProfileAndFeed = async () => {
+    if (!params?.username) return
+    
     try {
       // Get user by username
       const { data: userData, error: userError } = await supabase
@@ -182,7 +187,7 @@ export default function PublicProfilePage({
           >
             <ArrowLeft className="w-5 h-5 text-black" />
           </button>
-          <span className="font-black text-xl tracking-wider text-black">@{params.username}</span>
+          <span className="font-black text-xl tracking-wider text-black">@{params?.username || ''}</span>
         </div>
       </nav>
 
@@ -204,19 +209,19 @@ export default function PublicProfilePage({
               {userProfile?.profile_picture ? (
                 <img 
                   src={userProfile.profile_picture} 
-                  alt={params.username}
+                  alt={params?.username || ''}
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-400 to-pink-400 text-white text-3xl font-black">
-                  {params.username.charAt(0).toUpperCase()}
+                  {params?.username?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
               )}
             </div>
 
             {/* Username Badge */}
             <div className="bg-white px-4 py-1 rounded-full border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] mb-2 transform -rotate-2">
-              <h1 className="font-black text-xl text-black">@{params.username}</h1>
+              <h1 className="font-black text-xl text-black">@{params?.username || ''}</h1>
             </div>
 
             {/* Bio */}
@@ -237,7 +242,7 @@ export default function PublicProfilePage({
         {userInboxes.length > 0 && (
           <div className="sticky top-20 z-40 mb-8 px-2">
             {userInboxes.length === 1 ? (
-              <Link href={`/@${params.username}/${userInboxes[0].name.toLowerCase().replace(/\s+/g, '-')}`}>
+              <Link href={`/@${params?.username || ''}/${userInboxes[0].name.toLowerCase().replace(/\s+/g, '-')}`}>
                 <Button className="w-full bg-[#FACC15] hover:bg-[#EAB308] text-black font-black text-lg py-4 h-auto rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 group">
                   <span>SEND ANONYMOUS MESSAGE</span>
                   <Send className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -256,7 +261,7 @@ export default function PublicProfilePage({
                     Choose an inbox
                   </div>
                   {userInboxes.map((inbox) => (
-                    <Link key={inbox.id} href={`/@${params.username}/${inbox.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                    <Link key={inbox.id} href={`/@${params?.username || ''}/${inbox.name.toLowerCase().replace(/\s+/g, '-')}`}>
                       <DropdownMenuItem className="cursor-pointer font-medium text-black hover:bg-gray-100">
                         {inbox.name}
                       </DropdownMenuItem>
@@ -310,12 +315,12 @@ export default function PublicProfilePage({
                         {userProfile?.profile_picture ? (
                           <img 
                             src={userProfile.profile_picture} 
-                            alt={params.username}
+                            alt={params?.username || ''}
                             className="w-full h-full object-cover"
                           />
                         ) : (
                           <div className="w-full h-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white font-black">
-                            {params.username.charAt(0).toUpperCase()}
+                            {params?.username?.charAt(0)?.toUpperCase() || 'U'}
                           </div>
                         )}
                       </div>
@@ -323,7 +328,7 @@ export default function PublicProfilePage({
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <p className="text-xs font-bold text-blue-600">
-                          {params.username} replied:
+                          {params?.username || ''} replied:
                         </p>
                         <span className="text-[10px] font-bold text-gray-500 bg-gray-100 border border-gray-300 px-2 py-0.5 rounded-md">
                           [{item.inboxName}]

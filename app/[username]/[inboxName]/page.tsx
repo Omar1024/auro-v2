@@ -93,11 +93,15 @@ export default function PublicInboxPage({
     setPasswordInput("")
     fetchInbox()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.username, params.inboxName])
+  }, [params?.username, params?.inboxName])
 
   const fetchInbox = async () => {
+    if (!params?.username || !params?.inboxName) {
+      setIsLoading(false)
+      return
+    }
+    
     try {
-      
       const { data: userData, error: userError } = await supabase
         .from('users')
         .select('id, username, profile_picture')
@@ -111,7 +115,7 @@ export default function PublicInboxPage({
       setOwnerProfile(userData)
 
       // Convert URL-safe name back to original (replace hyphens with spaces)
-      const inboxNameDecoded = params.inboxName.replace(/-/g, ' ')
+      const inboxNameDecoded = params?.inboxName?.replace(/-/g, ' ') || ''
 
       // Use case-insensitive search with ilike (fetch both public and private)
       const { data: inboxDataFetched, error: inboxError } = await supabase
@@ -128,7 +132,7 @@ export default function PublicInboxPage({
 
       setInboxData({
         ...inboxDataFetched,
-        username: params.username,
+          username: params?.username || '',
         inboxName: inboxNameDecoded,
       })
 
@@ -336,7 +340,7 @@ export default function PublicInboxPage({
           </div>
           <AlertDialogFooter className="flex flex-col sm:flex-row gap-3">
             <button
-              onClick={() => router.push(`/${params.username}`)}
+              onClick={() => router.push(`/${params?.username || ''}`)}
               className="flex-1 bg-white border-2 border-black text-black font-bold py-3 rounded-xl shadow-[4px_4px_0px_0px_#000000] hover:bg-gray-100 active:translate-y-1 active:shadow-none transition-all"
             >
               Cancel
@@ -369,12 +373,12 @@ export default function PublicInboxPage({
                 {ownerProfile?.profile_picture ? (
                   <img 
                     src={ownerProfile.profile_picture} 
-                    alt={params.username}
+                    alt={params?.username || ''}
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white text-2xl font-black">
-                    {params.username.charAt(0).toUpperCase()}
+                    {params?.username?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                 )}
               </div>
@@ -382,7 +386,7 @@ export default function PublicInboxPage({
             </div>
             <div className="flex flex-col">
               <span className="text-xs font-bold text-gray-500 tracking-wider uppercase mb-0.5">
-                @{params.username}
+                @{params?.username || ''}
               </span>
               <h1 className="text-lg font-extrabold text-black leading-tight">
                 {inboxData?.prompt_text || 'Send me anonymous messages!'}
