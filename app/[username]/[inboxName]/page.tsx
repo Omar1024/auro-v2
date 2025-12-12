@@ -101,11 +101,16 @@ export default function PublicInboxPage({
       return
     }
     
+    // Remove @ symbol if present in the URL
+    const cleanUsername = params.username.startsWith('@') 
+      ? params.username.slice(1) 
+      : params.username
+    
     try {
       const { data: userData, error: userError } = await supabase
         .from('users')
         .select('id, username, profile_picture')
-        .eq('username', params.username)
+        .eq('username', cleanUsername)
         .single()
 
       if (userError) {
@@ -132,7 +137,7 @@ export default function PublicInboxPage({
 
       setInboxData({
         ...inboxDataFetched,
-          username: params?.username || '',
+          username: cleanUsername || '',
         inboxName: inboxNameDecoded,
       })
 

@@ -53,12 +53,17 @@ export default function PublicProfilePage({
       return
     }
     
+    // Remove @ symbol if present in the URL
+    const cleanUsername = params.username.startsWith('@') 
+      ? params.username.slice(1) 
+      : params.username
+    
     try {
       // Get user by username (exact match first, then case-insensitive fallback)
       let { data: userData, error: userError } = await supabase
         .from('users')
         .select('id, username, profile_picture')
-        .eq('username', params.username)
+        .eq('username', cleanUsername)
         .maybeSingle()
 
       // If not found with exact match, try case-insensitive
@@ -66,7 +71,7 @@ export default function PublicProfilePage({
         const { data: userDataCaseInsensitive, error: userErrorCaseInsensitive } = await supabase
           .from('users')
           .select('id, username, profile_picture')
-          .ilike('username', params.username)
+          .ilike('username', cleanUsername)
           .maybeSingle()
         
         if (userDataCaseInsensitive) {
@@ -83,10 +88,10 @@ export default function PublicProfilePage({
       }
       
       if (!userData) {
-        console.error('User not found:', params.username)
+        console.error('User not found:', cleanUsername)
         toast({
           title: "❌ User Not Found",
-          description: `User "${params.username}" doesn't exist`,
+          description: `User "${cleanUsername}" doesn't exist`,
           variant: "destructive",
         })
         setIsLoading(false)
