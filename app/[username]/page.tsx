@@ -390,13 +390,6 @@ export default function PublicProfilePage({
             ))
           )}
         </div>
-
-        {/* Load More Indicator */}
-        {feedItems.length > 0 && (
-          <div className="flex justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black" />
-          </div>
-        )}
       </main>
 
       {/* Bottom CTA */}
